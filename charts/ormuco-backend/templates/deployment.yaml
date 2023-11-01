@@ -1,16 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ormuco-backend-deployment
+  name: {{ include "ormuco-backend.fullname" . }}
+  labels:
+    {{- include "ormuco-backend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: ormuco-backend
+      {{- include "ormuco-backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: ormuco-backend
+        {{- include "ormuco-backend.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: ormuco-backend
@@ -18,3 +20,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
+          env:
+            - name: MYSQL_HOST
+              value: ormuco-database
+            - name: MYSQL_PORT
+              value: "3306" 
