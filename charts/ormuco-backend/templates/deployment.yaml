@@ -1,25 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ormuco-database-deployment
+  name: ormuco-backend-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: ormuco-database
+      app: ormuco-backend
   template:
     metadata:
       labels:
-        app: ormuco-database
+        app: ormuco-backend
     spec:
       containers:
-        - name: mysql
+        - name: ormuco-backend
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
-          env:
-          {{- range .Values.env }}
-            - name: {{ .name }}
-              value: {{ .value | quote }}
-          {{- end }}
