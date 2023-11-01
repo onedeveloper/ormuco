@@ -19,3 +19,5 @@ service:
   type: ClusterIP
   port: 3306
   
+nameOverride: ""
+fullnameOverride: ""
