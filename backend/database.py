@@ -1,7 +1,14 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
-SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://ormuco:ormuco@database/ormucodb"
+MYSQL_HOST = os.getenv('MYSQL_HOST')
+MYSQL_PORT = os.getenv('MYSQL_PORT')
+
+SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://ormuco:ormuco@{MYSQL_HOST}/ormucodb"
+
+print(SQLALCHEMY_DATABASE_URL)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
